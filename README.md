@@ -14,7 +14,7 @@
 * Descending order
 * Can search for contacts
 * Contacts are stored in database (either MongoDB or PostgreSQL)
-* _Your project will be rejected if a node_modules folder is included in the submission_
+* **Your project will be rejected if a node_modules folder is included in the submission**
 
 Each of the requirements should make a call to your running NodeJS server.  For example, when adding a contact, your front end should make a POST request to add the new contact.  The search functionality should send a GET request with your search term to your NodeJS server to get a list of relevant contacts.
 
