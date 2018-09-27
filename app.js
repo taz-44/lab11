@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const path = require('path');
 
 mongoose.connect('mongodb://localhost/userManagement', {useNewUrlParser:true});
 const db = mongoose.connection;
@@ -11,6 +12,7 @@ db.once('open', () => {
 const userSchema = new mongoose.Schema({
     name: String,
     role: String,
+    email: String,
     age: {type: Number, min: 18, max: 70},
     createDate: {type: Date, default: Date.now()}
 });
@@ -19,13 +21,27 @@ const userSchema = new mongoose.Schema({
 
 const user = mongoose.model('usercollections', userSchema);
 
+// sets up express
 const express = require('express');
-
 const app = express();
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
 const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended :true}));
+
+
+
+app.get('/', (req,res)=>{
+    user.find({}, (err, data)=>{
+        if(err) return console.log(`Opps! ${err}`);
+        console.log(`data -- ${JSON.stringify(data)}`);
+        let users = data;
+        res.render('index', {users} );
+    });
+});
 
 // Create -- new document
 // test this with `curl --data "name=Tyson&role=Student" http://localhost:8080/newUser` enter in command line
