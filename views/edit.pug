@@ -1,18 +1,16 @@
 form(action="/updateUser" method="post")
     label First
-        input( type="text" name="userID" id="first" placeholder="First Name")
+        input( type="text" name="first" id="first" value=user.name.first)
     label Last
-        input(type="text" name="name" id="last" placeholder="Last Name")
+        input(type="text" name="last" id="last" value=user.name.last)
     label E-mail
-        input( type="text" name="userEmail" id="email" placeholder="E-mail")
+        input( type="text" name="email" id="email" value=user.email)
     label Age
-        input( type="number" name="age" id="age" placeholder="Age")
+        input( type="number" name="age" id="age" value=user.age)
     label Phone
-        input( type="number" name="age" id="phone" placeholder="Phone Number")
+        input( type="text" name="phone" id="phone" value=user.phone)
     label Address
-        input( type="number" name="age" id="address" placeholder="Address")
+        input( type="text" name="address" id="address" value=user.address)
     label(hidden) ID
-        input(hidden type="number" name="id" id="id" value=id)
-    label(hidden) Timestamp
-        input(hidden type="text" name="timestamp" id="timestamp" value=timestamp)
+        input(hidden type="text" name="_id" id="_id" value=user._id)
     input( type="submit")

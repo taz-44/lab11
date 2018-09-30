@@ -34,8 +34,6 @@ const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended :true}));
 
-
-
 app.get('/', (req,res)=>{
     user.find({}, (err, data)=>{
         if(err) return console.log(`Opps! ${err}`);
@@ -71,30 +69,49 @@ app.post('/newUser', (req, res) => {
 });
 
 //test this with `curl http://localhost:8080/user/Tyson`
-app.get('/edit/:name', (req,res)=>{
-    let userName = req.params.name;
-    console.log(`GET /user/:name: ${JSON.stringify(req.params)}`);
-    user.findOne({name: userName}, (err, data)=>{
+app.get('/edit/:id', (req,res)=>{
+    let id = req.params.id;
+    console.log(`GET /user/:id: ${JSON.stringify(req.params)}`);
+    user.findOne({_id: id}, (err, data)=>{
         if(err) return console.log(`Opps! ${err}`);
         console.log(`data -- ${JSON.stringify(data)}`);
-        let returnMsg = `user name: ${userName}`;
+        let user = data;
+        res.render('edit', {user})
+    });
+});
+app.post('/updateUser', (req,res)=>{
+    let first = req.body.first;
+    let last = req.body.last;
+    let email = req.body.email;
+    let age = req.body.age;
+    let phone = req.body.phone;
+    let address = req.body.address;
+    let _id = req.body._id;
+    console.log(`POST /updateUser: ${JSON.stringify(req.body)}  ${first}  -- ${email}`);
+    user.findOneAndUpdate({_id: _id},
+            { name: {first:first,last:last},
+            email:email,
+            age:age,
+            phone:phone,
+            address:address }, {new: true}, (err, data)=>{
+        if(err) return console.log(`Opps ${err}`);
+        let returnMsg = `user name: ${first} has been updated`;
+        console.log(returnMsg);
+        res.redirect("/");
+    });
+});// test this with: `curl --data "name=Peter&role=Student" http://localhost:8080/updateUserRole`
+
+app.get('/delete/:id', (req, res) =>{
+    let id = req.params.id;
+    console.log(`GET /user/:id: ${JSON.stringify(req.params)}`);
+    user.findOne({_id: id}, (err, data)=>{
+        if(err) return console.log(`Opps! ${err}`);
+        console.log(`data -- ${JSON.stringify(data)}`);
+        let returnMsg = `user _id: ${id}`;
         console.log(returnMsg);
         res.send(returnMsg);
     });
 });
-app.post('/updateUser', (req,res)=>{
-    let matchedName = req.body.name;
-    let newRole = req.body.role;
-    console.log(`POST /updateUser: ${JSON.stringify(req.body)}  ${matchedName}  -- ${newRole}`);
-    user.findOneAndUpdate( {name: matchedName}, {role: newRole}, {new: true}, (err, data)=>{
-        if(err) return console.log(`Opps ${err}`);
-        console.log(`data -- ${data.role}`);
-        let returnMsg = `user name: ${matchedName} new role: ${newRole}`;
-        console.log(returnMsg);
-        res.send(returnMsg);
-    });
-});// test this with: `curl --data "name=Peter&role=Student" http://localhost:8080/updateUserRole`
-
 // delete
 app.post('/deleteUser', (req,res)=> {
     console.log(`POST /deleteUser: ${JSON.stringify(req.body)}`);
