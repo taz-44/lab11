@@ -3,23 +3,26 @@ head
 body
     div
         h1(class='myClass' id="headerId") User Display Page
-        a(href='main') Create a User
+        a(href='createUser') Create a User
     div
         table
             tr
-                th Name
-                th Role
-                //th E-mail
-                //th Age
-
+                th First
+                th Last
+                th E-mail
+                th Age
+                th Phone
+                th Address
             each val in users
-               tr
-                     td #{val.name}
-                     td #{val.role}
-                     //td #{val.userEmail}
-                     //td #{val.age}
-                     td
-                         a(href='edit/' + val.name) Edit
-                     td
-                         a(href='delete/' + val.name) Delete
+                tr
+                    td #{val.name.first}
+                    td #{val.name.last}
+                    td #{val.email}
+                    td #{val.age}
+                    td #{val.phone}
+                    td #{val.address}
+                    td
+                        a(href='edit/' + val.name.first +  val.name.last) Edit
+                    td
+                        a(href='delete/' + val.name.first +  val.name.last) Delete
 

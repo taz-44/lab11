@@ -1,0 +1,21 @@
+h1 Are you sure you want to delete this user?
+    table
+        tr
+            th Name
+            th UserID
+            th E-mail
+            th Age
+            th(hidden) ID
+        tr
+            td #{userName}
+            td #{userID}
+            td #{userEmail}
+            td #{age}
+            td(hidden id="id") #{id}
+
+    form(action="/deleteUser" method="post")
+        input(hidden type="text" name="userName" id="userName" value=userName)
+        input(hidden type="number" name="id" id="id" value=id)
+        input( type="submit" value="Yes")
+    form(action="/user" method="get")
+        input( type="submit" value="No")

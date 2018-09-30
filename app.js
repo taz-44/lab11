@@ -10,10 +10,12 @@ db.once('open', () => {
 });
 
 const userSchema = new mongoose.Schema({
-    name: String,
-    role: String,
+    name: {first: String, last: String},
     email: String,
-    age: {type: Number, min: 18, max: 70},
+    index: Number,
+    phone: String,
+    address: String,
+    age: {type: Number, min: 18, max: 62},
     createDate: {type: Date, default: Date.now()}
 });
 
@@ -37,44 +39,53 @@ app.use(express.urlencoded({ extended :true}));
 app.get('/', (req,res)=>{
     user.find({}, (err, data)=>{
         if(err) return console.log(`Opps! ${err}`);
-        console.log(`data -- ${JSON.stringify(data)}`);
+        // logs out all users
+        // console.log(`data -- ${JSON.stringify(data)}`);
         let users = data;
         res.render('index', {users} );
     });
 });
 
+app.get('/createUser', (req,res)=>{
+    res.render('create')
+});
 // Create -- new document
 // test this with `curl --data "name=Tyson&role=Student" http://localhost:8080/newUser` enter in command line
 app.post('/newUser', (req, res) => {
     console.log(`POST /newUser: ${JSON.stringify(req.body)}`);
     const newUser = new user();
-    newUser.name = req.body.name;
-    newUser.role = req.body.role;
+    newUser.name.first = req.body.first;
+    newUser.name.last = req.body.last;
+    newUser.email = req.body.email;
+    newUser.age = req.body.age;
+    newUser.phone = req.body.phone;
+    newUser.address = req.body.address;
     newUser.save((err, data) => {
         if (err) {
             return console.error(err);
         }
         console.log(`new user save: ${data}`);
-        res.send(`done ${data}`);
+        // res.send(`done ${data}`);
+        res.redirect("/")
     });
 });
+
 //test this with `curl http://localhost:8080/user/Tyson`
-app.get('/user/:name', (req,res)=>{
+app.get('/edit/:name', (req,res)=>{
     let userName = req.params.name;
     console.log(`GET /user/:name: ${JSON.stringify(req.params)}`);
     user.findOne({name: userName}, (err, data)=>{
         if(err) return console.log(`Opps! ${err}`);
         console.log(`data -- ${JSON.stringify(data)}`);
-        let returnMsg = `user name: ${userName} role: ${data.role}\n`;
+        let returnMsg = `user name: ${userName}`;
         console.log(returnMsg);
         res.send(returnMsg);
     });
 });
-
-app.post('/updateUserRole', (req,res)=>{
+app.post('/updateUser', (req,res)=>{
     let matchedName = req.body.name;
     let newRole = req.body.role;
-    console.log(`POST /updateUserRole: ${JSON.stringify(req.body)}  ${matchedName}  -- ${newRole}`);
+    console.log(`POST /updateUser: ${JSON.stringify(req.body)}  ${matchedName}  -- ${newRole}`);
     user.findOneAndUpdate( {name: matchedName}, {role: newRole}, {new: true}, (err, data)=>{
         if(err) return console.log(`Opps ${err}`);
         console.log(`data -- ${data.role}`);

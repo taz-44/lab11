@@ -1,0 +1,18 @@
+form(action="/updateUser" method="post")
+    label First
+        input( type="text" name="userID" id="first" placeholder="First Name")
+    label Last
+        input(type="text" name="name" id="last" placeholder="Last Name")
+    label E-mail
+        input( type="text" name="userEmail" id="email" placeholder="E-mail")
+    label Age
+        input( type="number" name="age" id="age" placeholder="Age")
+    label Phone
+        input( type="number" name="age" id="phone" placeholder="Phone Number")
+    label Address
+        input( type="number" name="age" id="address" placeholder="Address")
+    label(hidden) ID
+        input(hidden type="number" name="id" id="id" value=id)
+    label(hidden) Timestamp
+        input(hidden type="text" name="timestamp" id="timestamp" value=timestamp)
+    input( type="submit")
