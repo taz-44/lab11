@@ -1,21 +1,24 @@
 h1 Are you sure you want to delete this user?
     table
         tr
-            th Name
-            th UserID
+            th First
+            th Last
             th E-mail
             th Age
+            th Phone
+            th Address
             th(hidden) ID
         tr
-            td #{userName}
-            td #{userID}
-            td #{userEmail}
-            td #{age}
-            td(hidden id="id") #{id}
+            td #{user.name.first}
+            td #{user.name.last}
+            td #{user.email}
+            td #{user.age}
+            td #{user.phone}
+            td #{user.address}
+            td(hidden) #{user._id}
 
     form(action="/deleteUser" method="post")
-        input(hidden type="text" name="userName" id="userName" value=userName)
-        input(hidden type="number" name="id" id="id" value=id)
+        input(hidden type="text" name="_id" id="_id" value=user._id)
         input( type="submit" value="Yes")
-    form(action="/user" method="get")
+    form(action="/" method="get")
         input( type="submit" value="No")

@@ -108,19 +108,21 @@ app.get('/delete/:id', (req, res) =>{
         if(err) return console.log(`Opps! ${err}`);
         console.log(`data -- ${JSON.stringify(data)}`);
         let returnMsg = `user _id: ${id}`;
+        let user = data;
         console.log(returnMsg);
-        res.send(returnMsg);
+        res.render('delete', {user});
     });
 });
 // delete
 app.post('/deleteUser', (req,res)=> {
     console.log(`POST /deleteUser: ${JSON.stringify(req.body)}`);
-    let matchedName = req.body.name;
-    user.findOneAndDelete({name: matchedName}, (err, data) => {
+    let id = req.body._id;
+    user.findOneAndDelete({_id: id}, (err, data) => {
         if (err) return console.log(`data -- ${JSON.stringify(data)}`);
-        let returnMsg = `user name: ${matchedName} role: ${data}`;
+        let user = data;
+        let returnMsg = `user name: ${user.name} id: ${user._id}`;
         console.log(returnMsg);
-        res.send(returnMsg);
+        res.redirect('/');
     });// test this with: `curl --data "name=Peter" http://localhost:8080/deleteUser`
 });
 
