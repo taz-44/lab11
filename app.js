@@ -44,6 +44,35 @@ app.get('/', (req,res)=>{
     });
 });
 
+app.get('/search', (req,res)=>{
+    user.find({name: req.body.search}, (err, data)=>{
+        if(err) return console.log(`Opps! ${err}`);
+        // logs out all users
+        // console.log(`data -- ${JSON.stringify(data)}`);
+        let users = data;
+        res.render('index', {users} );
+    });
+});
+
+app.get('/filterNameAsc', (req,res)=>{
+    user.find({}, null, {sort: {name: 1}}, (err, data)=>{
+        if(err) return console.log(`Opps! ${err}`);
+        // logs out all users
+        // console.log(`data -- ${JSON.stringify(data)}`);
+        let users = data;
+        res.render('index', {users} );
+    });
+});
+app.get('/filterNameDsc', (req,res)=>{
+    user.find({}, null, {sort: {name: -1}}, (err, data)=>{
+        if(err) return console.log(`Opps! ${err}`);
+        // logs out all users
+        // console.log(`data -- ${JSON.stringify(data)}`);
+        let users = data;
+        res.render('index', {users} );
+    });
+});
+
 app.get('/createUser', (req,res)=>{
     res.render('create')
 });

@@ -3,9 +3,34 @@ head
 body
     div
         h1(class='myClass' id="headerId") User Display Page
+    div
         a(href='createUser') Create a User
     div
+        form(action="/search" method="get")
+            label Search
+                input(type="text" name="search" id="search" placeholder="Search by Name")
+            input(type="submit")
+    div
         table
+            tr
+                td
+                    a(class='button' href='/filterNameAsc') asc
+                    a(class='button' href='/filterNameDsc') dsc
+                //td
+                //    a(class='button' href='/filtered') asc
+                //    a(class='button' href='/filtered') dsc
+                //td
+                //    a(class='button' href='/filtered') asc
+                //    a(class='button' href='/filtered') dsc
+                //td
+                //    a(class='button' href='/filtered') asc
+                //    a(class='button' href='/filtered') dsc
+                //td
+                //    a(class='button' href='/filtered') asc
+                //    a(class='button' href='/filtered') dsc
+                //td
+                //    a(class='button' href='/filtered') asc
+                //    a(class='button' href='/filtered') dsc
             tr
                 th First
                 th Last
