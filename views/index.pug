@@ -6,7 +6,7 @@ body
     div
         a(href='createUser') Create a User
     div
-        form(action="/search" method="get")
+        form(action="/search" method="post")
             label Search
                 input(type="text" name="search" id="search" placeholder="Search by Name")
             input(type="submit")
@@ -40,8 +40,8 @@ body
                 th Address
             each val in users
                 tr
-                    td #{val.name.first}
-                    td #{val.name.last}
+                    td #{val.first}
+                    td #{val.last}
                     td #{val.email}
                     td #{val.age}
                     td #{val.phone}

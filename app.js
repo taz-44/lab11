@@ -10,7 +10,8 @@ db.once('open', () => {
 });
 
 const userSchema = new mongoose.Schema({
-    name: {first: String, last: String},
+    first: String,
+    last: String,
     email: String,
     index: Number,
     phone: String,
@@ -44,18 +45,30 @@ app.get('/', (req,res)=>{
     });
 });
 
-app.get('/search', (req,res)=>{
-    user.find({name: req.body.search}, (err, data)=>{
+app.post('/search', (req,res)=>{
+    let body = req.body.search;
+    console.log(body);
+    user.find({ $text:{$search: body} }, (err, data)=>{
         if(err) return console.log(`Opps! ${err}`);
-        // logs out all users
+        // logs out found users
         // console.log(`data -- ${JSON.stringify(data)}`);
         let users = data;
         res.render('index', {users} );
     });
 });
+// app.get('/search', (req, res) => {
+//     const body = req.body;
+//     console.log(body);
+//     user.find({ $text:{$search: req.body.search} }, (err, data) => {
+//         if (err) return console.log(`Oops! ${err}`);
+//         // let result = JSON.parse(data);
+//         //console.log(data);
+//         res.render('search', {monUser: data});
+//     });
+// });
 
 app.get('/filterNameAsc', (req,res)=>{
-    user.find({}, null, {sort: {name: 1}}, (err, data)=>{
+    user.find({}, null, {sort: {first: 1}}, (err, data)=>{
         if(err) return console.log(`Opps! ${err}`);
         // logs out all users
         // console.log(`data -- ${JSON.stringify(data)}`);
@@ -64,7 +77,7 @@ app.get('/filterNameAsc', (req,res)=>{
     });
 });
 app.get('/filterNameDsc', (req,res)=>{
-    user.find({}, null, {sort: {name: -1}}, (err, data)=>{
+    user.find({}, null, {sort: {first: -1}}, (err, data)=>{
         if(err) return console.log(`Opps! ${err}`);
         // logs out all users
         // console.log(`data -- ${JSON.stringify(data)}`);
@@ -81,8 +94,8 @@ app.get('/createUser', (req,res)=>{
 app.post('/newUser', (req, res) => {
     console.log(`POST /newUser: ${JSON.stringify(req.body)}`);
     const newUser = new user();
-    newUser.name.first = req.body.first;
-    newUser.name.last = req.body.last;
+    newUser.first = req.body.first;
+    newUser.last = req.body.last;
     newUser.email = req.body.email;
     newUser.age = req.body.age;
     newUser.phone = req.body.phone;
