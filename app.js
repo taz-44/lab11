@@ -56,16 +56,6 @@ app.post('/search', (req,res)=>{
         res.render('index', {users} );
     });
 });
-// app.get('/search', (req, res) => {
-//     const body = req.body;
-//     console.log(body);
-//     user.find({ $text:{$search: req.body.search} }, (err, data) => {
-//         if (err) return console.log(`Oops! ${err}`);
-//         // let result = JSON.parse(data);
-//         //console.log(data);
-//         res.render('search', {monUser: data});
-//     });
-// });
 
 app.get('/filterNameAsc', (req,res)=>{
     user.find({}, null, {sort: {first: 1}}, (err, data)=>{
