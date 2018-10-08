@@ -158,7 +158,6 @@ app.post('/deleteUser', (req,res)=> {
     });// test this with: `curl --data "name=Peter" http://localhost:8080/deleteUser`
 });
 
-
 app.listen(port, (err)=>{
     if (err) console.log(err);
     console.log(`app server listening on port ${port}`);
